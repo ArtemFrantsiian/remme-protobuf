@@ -35,6 +35,23 @@ message ConsensusMessage {
 
 // certificate of the previous block should be stored in the current header
 message Certificate {
+    bytes block_id = 1;
     // an array of ConsensusMessage's with message_type == CERT_VOTE
-    repeated ConsensusMessage certificate = 1;
+    repeated ConsensusMessage certificate = 2;
+}
+
+message CertificateRequest {
+    bytes block_id = 1;
+}
+
+message ConsensusMessageWrapper {
+    enum MessageType {
+        MESSAGE = 0;
+        CERTIFICATE_REQUEST = 1;
+        CERTIFICATE = 2;
+    }
+    MessageType type = 1;
+    ConsensusMessage consensus_message = 2;
+    Certificate certificate = 3;
+    CertificateRequest certificate_request = 4;
 }
